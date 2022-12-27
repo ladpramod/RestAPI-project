@@ -22,7 +22,7 @@ public class WelcomeRest {
 		this.studentSevice = studentSevice;
 	}
 
-	@PostMapping()
+	@PostMapping("/data")
 	public ResponseEntity<StudentData> saveStudent(@RequestBody StudentData data){
 		
 		return new ResponseEntity<StudentData>(studentSevice.saveStudent(data),HttpStatus.CREATED);

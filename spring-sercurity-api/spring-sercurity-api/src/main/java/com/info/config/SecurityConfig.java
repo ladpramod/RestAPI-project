@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;import com.info.dao.StudentRepo;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 
 @SuppressWarnings("deprecation")
@@ -13,13 +13,22 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;import c
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+	
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		http.csrf()
+		.disable()
+		.authorizeHttpRequests()
+		.anyRequest()
+		.authenticated()
+		.and()
+		.httpBasic();
 		
 		http.authorizeRequests()
 		.antMatchers("/balance").authenticated()
 		.antMatchers("/statement").authenticated()
-		.antMatchers("/data").permitAll()
 		.antMatchers("/home").permitAll()
 		.antMatchers("/contact").permitAll()
 		.and().formLogin()
@@ -34,5 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.withUser("priya").password("priya@123").authorities("read").and()
 		.withUser("rahul").password("rahul@123").authorities("read").and()
 		.passwordEncoder(NoOpPasswordEncoder.getInstance());
+		
+		
+		
 	}
+	
+	
 }
